@@ -39,6 +39,9 @@ void setup() {
   // generate a square wave for the constrast voltage
   analogWrite(contrast_gen,128);
 
+  //slow down PWM Frequency
+  TCCR1B&=0b11111000;
+  TCCR1B|=0b00000101; 
 
   Wire.begin();
   
