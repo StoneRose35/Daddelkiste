@@ -3,14 +3,17 @@ import time
 import datetime
 import serial
 import re
-import os
 import subprocess
 import threading
 import RPi.GPIO as GPIO
+import daddelkisteCommon
 
 SERIAL_DEVICE = "/dev/ttyACM0"
 GPIO_OFFSWITCH_PIN = 11
 BAT_CONVERSION = 0.011695888188
+
+
+fan_speed_calculator = daddelkisteCommon.FanSpeedCalculator()
 
 arduino = serial.Serial(SERIAL_DEVICE)
 battery_voltage = 12.
@@ -55,24 +58,23 @@ def serial_listener():
                     arduino.write("A0".encode("utf-8"))
                 last_vol = int(keyVal["VOL"])
             if "BAT" in keyVal:
-                battery_voltage = float(keyVal["BAT"])*BAT_CONVERSION
+                battery_voltage = daddelkisteCommon.calculate_battery_voltage(keyVal["BAT"])
+                if battery_voltage < 7.0:
+                    turn_off(0)
 
 def serial_writer():
     cpu_temp_old = 0.0
+    fan_idx_old = 0
     global battery_voltage
     while True:
         cpu_temp = get_cpu_temp()
         if cpu_temp is not None and abs(cpu_temp_old-cpu_temp) > 0.1:
             tempv_array = list("D2T: {:.1f}'C B: {:.1f}V\n".format(cpu_temp,battery_voltage).encode("utf-8"))
             deg_idx = tempv_array.index(39)
-            tempv_array[deg_idx]=223
+            tempv_array[deg_idx] = 223
             arduino.write(bytes(tempv_array))
-            if cpu_temp > 60.0:
-                arduino.write("F160\n".format(cpu_temp).encode("utf-8"))
-            elif cpu_temp > 70.0:
-                arduino.write("F255\n".encode("utf-8"))
-            else:
-                arduino.write("F0\n".encode("utf-8"))
+            fan_val = fan_speed_calculator.compute_fan_speed(cpu_temp)
+            arduino.write("F{}\n".format(fan_val).encode("utf-8"))
         cpu_temp_old = cpu_temp
         current_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         arduino.write("D3{}\n".format(current_time).encode("utf-8"))
