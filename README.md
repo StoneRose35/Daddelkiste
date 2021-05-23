@@ -5,7 +5,7 @@ A unique feature is the simple on/off switch mechanism with low standby power co
 
 ## Schematic
 
-![Schematic][schematic.png]
+![Schematic](schematic.png)
 
 ## Protocols / Communication
 
