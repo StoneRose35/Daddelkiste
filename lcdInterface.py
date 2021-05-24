@@ -59,7 +59,7 @@ def serial_listener():
                 last_vol = int(keyVal["VOL"])
             if "BAT" in keyVal:
                 battery_voltage = daddelkisteCommon.calculate_battery_voltage(keyVal["BAT"])
-                if battery_voltage < 7.0:
+                if battery_voltage < 7.5:
                     turn_off(0)
 
 def serial_writer():
@@ -93,7 +93,11 @@ def init_gpio():
 if __name__ == "__main__":
     init_gpio()
     arduino.write("D0Daddelkiste running\n".encode("utf-8"))
+
     t1 = threading.Thread(target=serial_listener)
     t1.start()
+    time.sleep(0.1)
+    arduino.write("V\n".encode("utf-8"))
+    time.sleep(0.1)
     serial_writer()
 

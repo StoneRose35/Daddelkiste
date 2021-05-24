@@ -17,8 +17,9 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 int volumeOld=0;
 unsigned int cntr=0; 
 int bat_voltage = 0;
+int fanSpeed;
 
-void printAndSendValue(int val)
+void sendVolume(int val)
 {
       String sentValue;
       sentValue = "VOL(";
@@ -60,12 +61,16 @@ void setup() {
 }
 
 void loop() {
+  // switch off fan before volume vpot read to reduce noise on the supply line
+  analogWrite(fan,0);
+  delay(20);
   int volumeValue = analogRead(A0);
+  analogWrite(fan,fanSpeed);
   if (volumeValue > volumeOld)
   {
     if (volumeValue - volumeOld > 4)
     {
-      printAndSendValue(volumeValue);
+      sendVolume(volumeValue);
       volumeOld = volumeValue;
     }
   }
@@ -73,7 +78,7 @@ void loop() {
   {
     if (volumeOld - volumeValue > 4)
     {
-     printAndSendValue(volumeValue);
+     sendVolume(volumeValue);
       volumeOld = volumeValue;
     }
   }
@@ -84,7 +89,7 @@ void loop() {
     if (data.startsWith("F"))
     {
       // command for setting the fan speed
-      int fanSpeed = data.substring(1).toInt();
+      fanSpeed = data.substring(1).toInt();
       analogWrite(fan,fanSpeed);
     }
     else if (data.startsWith("D"))
@@ -112,6 +117,10 @@ void loop() {
       {
         returnErrorCode(retcode);
       }
+    }
+    else if (data.startsWith("V"))
+    {
+      sendVolume(volumeOld);
     }
   }
 
@@ -146,5 +155,4 @@ void loop() {
   else {
       cntr += 1;
   }
-  delay(1);
 }

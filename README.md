@@ -9,7 +9,8 @@ A unique feature is the simple on/off switch mechanism with low standby power co
 The Raspberry Pi and the Arduino communicate over Serial USB. The possible messages received by the arduino are as follows
 * F<number from 0 to 255>\n: Sets the Fan to a specific speed, 0 is off, 255 is full speed
 * A<0 or 1>\n: Switches the audio amplifier off or on, 0 is off 1 is on
-* D<0 to 3><Text (max 20 chars)>\n: Display th given information on a certain line, ex. "D1CPU Speed: 788MHz\n" displays "CPU Speed: 788MHz" on the second line
+* D<0 to 3><Text (max 20 chars)>\n: Display the given information on a certain line, ex. "D1CPU Speed: 788MHz\n" displays "CPU Speed: 788MHz" on the second line
+* V: Return the Volume Pot reading
 
 The Arduino send the following commands to the Raspberry pi
 * VOL(<number from 0 to 1023>)\n: passes the reading of the volume pot to the raspberry pi
