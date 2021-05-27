@@ -1,0 +1,9 @@
+
+# open eeprom config using
+sudo -E rpi-eeprom-config --edit
+
+set the following values
+POWER_OFF_ON_HALT=1
+WAKE_ON_GPIO=0
+
+
