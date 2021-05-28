@@ -32,9 +32,11 @@ def read_serial_values():
     # print(rawdata.decode("utf-8"))
     return rawdata.decode("utf-8")
 
+
 def set_volume(vol: int):
-    subprocess.call(["su","pi","-c", '"pactl set-sink-volume @DEFAULT_SINK@ {:0.0f}%"'.format((vol*100.)/1024.)])
-    #subprocess.call(["amixer","set","Master", "{:.1f}%".format((vol*100)/1024)])
+    subprocess.call(["sudo","-u",'#1000',"XDG_RUNTIME_DIR=/run/user/1000","pactl","set-sink-volume","@DEFAULT_SINK@","{:d}%".format(int((vol*100.)/1024.))])
+
+
 def get_cpu_temp():
     resp = subprocess.Popen(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE)
     tempstring = str(resp.stdout.read().decode("utf-8"))
@@ -59,7 +61,7 @@ def serial_listener():
                 last_vol = int(keyVal["VOL"])
             if "BAT" in keyVal:
                 battery_voltage = daddelkisteCommon.calculate_battery_voltage(keyVal["BAT"])
-                if battery_voltage < 7.5:
+                if battery_voltage < 5.0:
                     turn_off(0)
 
 def serial_writer():
@@ -82,7 +84,7 @@ def serial_writer():
 
 def turn_off(channel):
     arduino.write("D0Daddelkiste stopping\n".encode("utf-8"))
-    subprocess.call(["shutdown", "-h", "now"], shell=False)
+    subprocess.call(["sudo", "shutdown", "-h", "now"], shell=False)
 
 def init_gpio():
     GPIO.setmode(GPIO.BOARD)

@@ -41,8 +41,8 @@ void setup() {
   analogWrite(contrast_gen,128);
 
   //slow down PWM Frequency
-  TCCR1B&=0b11111000;
-  TCCR1B|=0b00000101; 
+  //TCCR1B&=0b11111000;
+  //TCCR1B|=0b00000100; 
 
   Wire.begin();
   
@@ -61,11 +61,10 @@ void setup() {
 }
 
 void loop() {
-  // switch off fan before volume vpot read to reduce noise on the supply line
-  analogWrite(fan,0);
-  delay(20);
+  //analogWrite(fan,0);
+  //delay(2);
   int volumeValue = analogRead(A0);
-  analogWrite(fan,fanSpeed);
+  //analogWrite(fan,fanSpeed);
   if (volumeValue > volumeOld)
   {
     if (volumeValue - volumeOld > 4)

@@ -1,5 +1,5 @@
 
-FAN_SPEEDS = [{"temperature":55.0, "fan_speed": 160}, {"temperature": 60.0, "fan_speed": 255}]
+FAN_SPEEDS = [{"temperature":55.0, "fan_speed": 255}, {"temperature": 60.0, "fan_speed": 255}]
 DELTA_T = 2.5
 fan_idx_old = 0
 
@@ -30,7 +30,9 @@ class FanSpeedCalculator:
                 outval = FAN_SPEEDS[fan_idx - 1]["fan_speed"]
             elif fan_idx == 0:
                 outval = 0
-            else:
+            elif self.fan_idx_old > 0:
                 outval = FAN_SPEEDS[self.fan_idx_old - 1]["fan_speed"]
+            else:
+                outval = 0
         self.fan_idx_old = fan_idx
         return outval
