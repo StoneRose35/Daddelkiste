@@ -41,9 +41,13 @@ void setup() {
   analogWrite(contrast_gen,128);
 
   //slow down PWM Frequency
-  //TCCR1B&=0b11111000;
-  //TCCR1B|=0b00000100; 
+  TCCR1B&=0b11111000;
+  TCCR1B|=0b00000100; 
 
+  // 3.3v reference for the volume pot
+  analogReference(EXTERNAL);
+
+  delay(500);
   Wire.begin();
   
   // switch off audio amp
@@ -61,10 +65,7 @@ void setup() {
 }
 
 void loop() {
-  //analogWrite(fan,0);
-  //delay(2);
   int volumeValue = analogRead(A0);
-  //analogWrite(fan,fanSpeed);
   if (volumeValue > volumeOld)
   {
     if (volumeValue - volumeOld > 4)
