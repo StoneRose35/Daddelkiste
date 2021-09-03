@@ -3,6 +3,8 @@
 // include the library code:
 #include <LiquidCrystal.h>
 #include <Wire.h>
+#define wdr() __asm__ __volatile__ ("wdr")
+
 
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
@@ -36,7 +38,17 @@ void returnErrorCode(int code)
         Serial.print(err_msg);    
 }
 
+void initWatchdog()
+{
+  //cli();
+  wdr();
+  WDTCSR |= (1<<WDCE) | (1<<WDE); // has to be done in one instruction, see data sheet
+  WDTCSR  = (1<<WDE) | (1<<WDP2) | (1<<WDP1) | (0 << WDIE); // watchdog is set to 1s 
+}
+
 void setup() {
+
+  initWatchdog();
   // generate a square wave for the constrast voltage
   analogWrite(contrast_gen,128);
 
@@ -46,8 +58,8 @@ void setup() {
 
   // 3.3v reference for the volume pot
   analogReference(EXTERNAL);
-
-  delay(500);
+  
+  delay(100);
   Wire.begin();
   
   // switch off audio amp
@@ -65,6 +77,7 @@ void setup() {
 }
 
 void loop() {
+  wdr();
   int volumeValue = analogRead(A0);
   if (volumeValue > volumeOld)
   {
