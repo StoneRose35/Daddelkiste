@@ -5,6 +5,7 @@ import serial
 import re
 import subprocess
 import threading
+import os
 import RPi.GPIO as GPIO
 import daddelkisteCommon
 
@@ -78,10 +79,17 @@ def serial_listener():
                 elif int(keyVal["VOL"]) == 0 and last_vol > 0:
                     arduino.write("A0".encode("utf-8"))
                 last_vol = int(keyVal["VOL"])
-            if "BAT" in keyVal:
+            elif "BAT" in keyVal:
                 battery_voltage = daddelkisteCommon.calculate_battery_voltage(keyVal["BAT"])
                 if battery_voltage < 5.0:
                     turn_off(0)
+            elif "BUT" in keyVal:
+                with open("/opt/retropie/startup.config", "wt") as f:
+                    if keyVal["BUT"] == 1: #short
+                        f.write("EMULATIONSTATION")
+                    elif keyVal["BUT"] == 2: #long
+                        f.write("DESKTOP")
+
 
 
 def serial_writer():
@@ -120,7 +128,11 @@ if __name__ == "__main__":
 
     t1 = threading.Thread(target=serial_listener)
     t1.start()
-    time.sleep(0.1)
+    time.sleep(0.01)
+    # get button push length, start retropie on a short push and normal desktop environment on long push
+    arduino.write("B\n".encode("utf-8"))
+    time.sleep(0.01)
+    # get initial volume reading
     arduino.write("V\n".encode("utf-8"))
-    time.sleep(0.1)
+    time.sleep(0.01)
     serial_writer()

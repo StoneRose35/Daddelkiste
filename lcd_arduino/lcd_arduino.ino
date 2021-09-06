@@ -20,6 +20,7 @@ int volumeOld=0;
 unsigned int cntr=0; 
 int bat_voltage = 0;
 int fanSpeed;
+char buttonPushLength = 0; // 1: short, 2: long
 
 void sendVolume(int val)
 {
@@ -66,6 +67,16 @@ void setup() {
   Wire.beginTransmission(atmega_twi_addr);
   Wire.write(0);
   Wire.endTransmission();
+
+  // get the button press length
+  Wire.beginTransmission(atmega_twi_addr);
+  Wire.write(3);
+  Wire.endTransmission();
+  delay(2);
+  Wire.requestFrom(atmega_twi_addr,1);
+  while (Wire.available()) {
+        buttonPushLength = Wire.read();
+  }
 
   // set up the LCD's number of columns and rows:
   lcd.begin(20, 4);
@@ -134,6 +145,14 @@ void loop() {
     else if (data.startsWith("V"))
     {
       sendVolume(volumeOld);
+    }
+    else if (data.startsWith("B"))
+    {
+      String sentValue;
+      sentValue = "BUT(";
+      sentValue += atoi(buttonPushLength);
+      sentValue += ")\n";
+      Serial.print(sentValue);
     }
   }
 
