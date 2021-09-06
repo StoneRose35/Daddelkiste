@@ -10,11 +10,14 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include <avr/wdt.h>
 #include <util/delay.h>
 #include "timers.h"
+#include "wdtConfig.h"
 
 #define nop() asm volatile("nop")
 
+// task id's for the main, denote individual bits
 #define HANDLE_BUTTON_SHORT 1
 #define HANDLE_BUTTON_LONG 2
 #define READ_BATTERY_VOLTAGE 3
@@ -22,7 +25,7 @@
 #define GO_TO_SLEEP 5
 #define NOTHING 0
 
-
+// button press length states
 
 // pinout
 //rpi 3.3v sense: ADC0 (pin 23)
@@ -34,16 +37,18 @@
 
 uint8_t last_cmd;
 uint16_t bat_voltage;
-uint8_t go_to_sleep;
 uint8_t task;
 
 
+
+/*
 void delayAndReturn()
 {
 		_delay_ms(200.0);
 		_delay_ms(200.0);
 		sei();
 }
+*/
 
 void readBatVoltage()
 {
@@ -123,7 +128,7 @@ int main(void)
 	// setup external interrupt
 	PORTD |= (1 << PORTD2);
 	GICR |= (1 << INT0);
-	MCUCR |= 2; // active on falling edge only
+	MCUCR |= 0; // active on low level
 
 	// initialize i2c to listen to address 10
 	TWAR &= (I2C_ADDRESS << 1);
@@ -131,7 +136,10 @@ int main(void)
 	// audio amp switch as output
 	DDRD |= (1 << DDD7);
 	
-	go_to_sleep = 1;
+	// init Watchdog
+	enableWdt();
+
+	task |= (1 << GO_TO_SLEEP);
 
 	
 	
@@ -152,9 +160,11 @@ int main(void)
     	{
     	case HANDLE_BUTTON_SHORT:
     		handleButtonPush();
+    		task |= (1 << GO_TO_SLEEP);
     		break;
     	case HANDLE_BUTTON_LONG:
     		handleButtonPush();
+    		task |= (1 << GO_TO_SLEEP);
     		break;
     	case READ_BATTERY_VOLTAGE:
     		readBatVoltage();
@@ -165,10 +175,12 @@ int main(void)
     	case GO_TO_SLEEP:
 			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 			//task &= ~(1 << GO_TO_SLEEP);
+			//disableWdt();
 			sleep_mode();
 			break;
 
     	}
+    	wdt_reset();
     }
 }
 
@@ -178,7 +190,7 @@ ISR ( INT0_vect )
 	cli();
 	if (TCCR0 == 0)
 	{
-		if ((MCUCR & 0x2) == 0x2) // falling edge
+		if ((MCUCR & 0x3) == 0x0) // low level (result of pushing down initially)
 		{
 			uint16_t t_val;
 			t_val = getTimer0Value();
@@ -187,6 +199,7 @@ ISR ( INT0_vect )
 				startTimer0(PRESC_64);
 				MCUCR = 0x1; // set trigger to rising edge
 			}
+			task &= ~(1 << GO_TO_SLEEP);
 		}
 		else // rising edge
 		{
@@ -230,6 +243,7 @@ ISR ( TWI_vect )
 		// command are: 0: turn off audio amp
 		//              1: turn on audio amp
 		//              2: send battery voltage
+		//              3: return button push duration
 		last_cmd = TWDR;
 		if (TWDR == 0)
 		{
@@ -260,8 +274,9 @@ ISR ( TWI_vect )
 		TWCR |= (1 << TWINT) | (1 << TWEN);
 		task |= (1 << GO_TO_SLEEP);
 	}
-	else if ((TWSR & 0xF0) == 0xC0 && last_cmd == 2)
+	else if ((TWSR & 0xF8) == 0xC8 && last_cmd == 2)
 	{
+		// last data byte has been transmitted successfully
 		TWCR |= (1 << TWEA) | (1 << TWINT) | (1 << TWEN);
 		task |= (1 << GO_TO_SLEEP);
 	}
