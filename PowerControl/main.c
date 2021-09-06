@@ -18,11 +18,12 @@
 #define nop() asm volatile("nop")
 
 // task id's for the main, denote individual bits
-#define HANDLE_BUTTON_SHORT 1
+#define HANDLE_BUTTON 1
 #define HANDLE_BUTTON_LONG 2
 #define READ_BATTERY_VOLTAGE 3
 #define SEND_BATTERY_VOLTAGE_MSB 4
 #define GO_TO_SLEEP 5
+#define SEND_BUTTON_PUSH_LENGTH 6
 #define NOTHING 0
 
 // button press length states
@@ -38,6 +39,7 @@
 uint8_t last_cmd;
 uint16_t bat_voltage;
 uint8_t task;
+uint8_t buttonPushLength=0; // 1: short, 2: long
 
 
 
@@ -69,6 +71,12 @@ void sendBatteryMsb()
 	task &= ~(1 << SEND_BATTERY_VOLTAGE_MSB);
 }
 
+void sendButtonPushLength()
+{
+	TWDR = buttonPushLength;
+	TWCR |= (1 << TWEA) | (1 << TWINT) | (1 << TWEN);
+	task &= ~(1 << SEND_BUTTON_PUSH_LENGTH);
+}
 
 void handleButtonPush()
 {
@@ -116,7 +124,7 @@ void handleButtonPush()
 			TWCR |= (1 << TWEA) | (1 << TWEN) | (1 << TWIE);
 		}
 	}
-	task &= ~((1 << HANDLE_BUTTON_LONG) | (1 << HANDLE_BUTTON_SHORT));
+	task &= ~ (1 << HANDLE_BUTTON);
 }
 
 int main(void)
@@ -158,11 +166,7 @@ int main(void)
     {
     	switch (task)
     	{
-    	case HANDLE_BUTTON_SHORT:
-    		handleButtonPush();
-    		task |= (1 << GO_TO_SLEEP);
-    		break;
-    	case HANDLE_BUTTON_LONG:
+    	case HANDLE_BUTTON:
     		handleButtonPush();
     		task |= (1 << GO_TO_SLEEP);
     		break;
@@ -188,41 +192,41 @@ int main(void)
 ISR ( INT0_vect )
 {
 	cli();
-	if (TCCR0 == 0)
+
+	if ((MCUCR & 0x3) == 0x0) // low level (result of pushing down initially)
 	{
-		if ((MCUCR & 0x3) == 0x0) // low level (result of pushing down initially)
+		uint16_t t_val;
+		t_val = getTimer1Value();
+		if (t_val > 50 || (TCCR1B & 0x7) == 0x0)
 		{
-			uint16_t t_val;
-			t_val = getTimer0Value();
-			if (t_val > 50)
-			{
-				startTimer0(PRESC_64);
-				MCUCR = 0x1; // set trigger to rising edge
-			}
-			task &= ~(1 << GO_TO_SLEEP);
+			startTimer1(PRESC_64);
+			MCUCR |= 0x1; // set trigger to rising edge
 		}
-		else // rising edge
+		task &= ~(1 << GO_TO_SLEEP);
+		task |= (1 << HANDLE_BUTTON);
+	}
+	else // rising edge
+	{
+		uint16_t t_val;
+		t_val = getTimer1Value();
+		if (t_val > 1000)
 		{
-			uint16_t t_val;
-			t_val = getTimer0Value();
-			if (t_val > 1000)
-			{
-				// handle long press
-				task |= (1 << HANDLE_BUTTON_LONG);
-				// switch trigger edge and restart timer
-				startTimer0(PRESC_64);
-				MCUCR = 0x2;
-			}
-			else if (t_val > 50)
-			{
-				// handle short press
-				task |= (1 << HANDLE_BUTTON_SHORT);
-				// switch trigger edge and restart timer
-				startTimer0(PRESC_64);
-				MCUCR = 0x2;
-			}
+			// handle long press
+			buttonPushLength = 2;
+			// switch trigger edge and restart timer
+			startTimer1(PRESC_1024);
+			MCUCR &= ~0x1; // set trigger back to low
+		}
+		else if (t_val > 50)
+		{
+			// handle short press
+			buttonPushLength = 1;
+			// switch trigger edge and restart timer
+			startTimer1(PRESC_1024);
+			MCUCR &=  ~0x1; // set trigger back to low
 		}
 	}
+
 	sei();
 }
 
@@ -256,7 +260,6 @@ ISR ( TWI_vect )
 		else if (TWDR == 2)
 		{
 			task |= (1 << READ_BATTERY_VOLTAGE);
-			//readBatVoltage();
 		}
 		TWCR |= (1 << TWEA) | (1 << TWINT)| (1 << TWEN);
 	}
@@ -265,6 +268,11 @@ ISR ( TWI_vect )
 		// read request has been received, last command is 2 --> send MSB of voltage reading
 		task |= (1 << SEND_BATTERY_VOLTAGE_MSB);
 		task &= ~(1 << GO_TO_SLEEP);
+	}
+	else if ((TWSR & 0xF8) == 0xA8 && last_cmd == 3)
+	{
+		// read request has been received, last command is 3 --> send button Push length
+		task |= (1 << SEND_BUTTON_PUSH_LENGTH);
 	}
 	else if ((TWSR & 0xF8) == 0xB8 && last_cmd == 2)
 	{

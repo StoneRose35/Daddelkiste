@@ -23,4 +23,12 @@ uint16_t getTimer0Prescaler();
 
 void stopTimer0();
 
+void startTimer1(uint8_t presc);
+
+uint16_t getTimer1Value();
+
+uint16_t getTimer1Prescaler();
+
+void stopTimer1();
+
 #endif /* TIMERS_H_ */
