@@ -44,7 +44,7 @@ void initWatchdog()
   //cli();
   wdr();
   WDTCSR |= (1<<WDCE) | (1<<WDE); // has to be done in one instruction, see data sheet
-  WDTCSR  = (1<<WDE) | (1<<WDP2) | (1<<WDP1) | (0 << WDIE); // watchdog is set to 1s 
+  WDTCSR  = (1<<WDE) | (1<<WDP2) | (1<<WDP1) | (0<<WDIE); // watchdog is set to 1s 
 }
 
 void setup() {
@@ -148,11 +148,16 @@ void loop() {
     }
     else if (data.startsWith("B"))
     {
+      const char* bpAddr=&buttonPushLength;
       String sentValue;
       sentValue = "BUT(";
-      sentValue += atoi(buttonPushLength);
+      sentValue += atoi(bpAddr);
       sentValue += ")\n";
       Serial.print(sentValue);
+    }
+    else if (data.startsWith("I"))
+    {
+      lcd.begin(20, 4);  
     }
   }
 

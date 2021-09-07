@@ -93,7 +93,7 @@ void handleButtonPush()
 	// raspberry pi  is on --> switch off
 	{
 		// switch off twi communication
-		TWCR &= ~((1 << TWEA) | (1 << TWEN) | (1 << TWIE));
+		//TWCR &= ~((1 << TWEA) | (1 << TWEN) | (1 << TWIE));
 		PORTD &= ~(1 << PORTD7); // audio amp off
 		PORTB &= ~(1 << PORTB1);
 		DDRB |= (1 << DDB1);
@@ -121,10 +121,10 @@ void handleButtonPush()
 				//	d_cnt++;
 				//}
 			// switch on twi communication
-			TWCR |= (1 << TWEA) | (1 << TWEN) | (1 << TWIE);
+			//TWCR |= (1 << TWEA) | (1 << TWEN) | (1 << TWIE);
 		}
 	}
-	task &= ~ (1 << HANDLE_BUTTON);
+	task &= ~(1 << HANDLE_BUTTON);
 }
 
 int main(void)
@@ -145,46 +145,44 @@ int main(void)
 	DDRD |= (1 << DDD7);
 	
 	// init Watchdog
-	enableWdt();
+	//enableWdt();
 
 	task |= (1 << GO_TO_SLEEP);
 
-	
-	
-	//uint8_t d_cnt = 0;
-	//while (d_cnt < 30)
-	//{
-	//	_delay_ms(100);
-	//	d_cnt++;
-	//}
-	
 	
 	TWCR |= (1 << TWEA) | (1 << TWEN) | (1 << TWIE);
 	sei();
 
     while (1) 
     {
-    	switch (task)
+
+    	if ((task & (1 << HANDLE_BUTTON)) == (1 << HANDLE_BUTTON))
     	{
-    	case HANDLE_BUTTON:
     		handleButtonPush();
     		task |= (1 << GO_TO_SLEEP);
-    		break;
-    	case READ_BATTERY_VOLTAGE:
+    	}
+    	if ((task & (1 << READ_BATTERY_VOLTAGE)) == (1 << READ_BATTERY_VOLTAGE))
+    	{
     		readBatVoltage();
-    		break;
-    	case SEND_BATTERY_VOLTAGE_MSB:
+    	}
+    	if ((task & (1 << SEND_BATTERY_VOLTAGE_MSB)) == (1 << SEND_BATTERY_VOLTAGE_MSB))
+    	{
     		sendBatteryMsb();
-    		break;
-    	case GO_TO_SLEEP:
+    	}
+    	if ((task & (1 << SEND_BUTTON_PUSH_LENGTH)) == (1 << SEND_BUTTON_PUSH_LENGTH))
+    	{
+    		sendButtonPushLength();
+    	}
+    	if (task == (1 << GO_TO_SLEEP))
+    	{
 			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 			//task &= ~(1 << GO_TO_SLEEP);
 			//disableWdt();
 			sleep_mode();
-			break;
 
     	}
-    	wdt_reset();
+    	//wdt_reset();
+
     }
 }
 
@@ -197,13 +195,14 @@ ISR ( INT0_vect )
 	{
 		uint16_t t_val;
 		t_val = getTimer1Value();
-		if (t_val > 50 || (TCCR1B & 0x7) == 0x0)
+		if ((TCCR1B & 0x7) == 0x0 || t_val > 50)
 		{
-			startTimer1(PRESC_64);
+			startTimer1(PRESC_1024);
 			MCUCR |= 0x1; // set trigger to rising edge
+			task &= ~(1 << GO_TO_SLEEP);
+			task |= (1 << HANDLE_BUTTON);
 		}
-		task &= ~(1 << GO_TO_SLEEP);
-		task |= (1 << HANDLE_BUTTON);
+
 	}
 	else // rising edge
 	{
@@ -273,6 +272,7 @@ ISR ( TWI_vect )
 	{
 		// read request has been received, last command is 3 --> send button Push length
 		task |= (1 << SEND_BUTTON_PUSH_LENGTH);
+		task |= (1 << GO_TO_SLEEP);
 	}
 	else if ((TWSR & 0xF8) == 0xB8 && last_cmd == 2)
 	{

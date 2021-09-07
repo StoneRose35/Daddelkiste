@@ -124,6 +124,8 @@ def init_gpio():
 
 if __name__ == "__main__":
     init_gpio()
+    arduino.write("I\n".encode("utf-8"))
+    time.sleep(0.01)
     arduino.write("D0Daddelkiste running\n".encode("utf-8"))
 
     t1 = threading.Thread(target=serial_listener)
