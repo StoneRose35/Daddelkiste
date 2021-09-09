@@ -145,7 +145,7 @@ int main(void)
 	DDRD |= (1 << DDD7);
 	
 	// init Watchdog
-	//enableWdt();
+	enableWdt();
 
 	task |= (1 << GO_TO_SLEEP);
 
@@ -159,7 +159,7 @@ int main(void)
     	if ((task & (1 << HANDLE_BUTTON)) == (1 << HANDLE_BUTTON))
     	{
     		handleButtonPush();
-    		task |= (1 << GO_TO_SLEEP);
+    		//task |= (1 << GO_TO_SLEEP);
     	}
     	if ((task & (1 << READ_BATTERY_VOLTAGE)) == (1 << READ_BATTERY_VOLTAGE))
     	{
@@ -177,11 +177,11 @@ int main(void)
     	{
 			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 			//task &= ~(1 << GO_TO_SLEEP);
-			//disableWdt();
+			disableWdt();
 			sleep_mode();
 
     	}
-    	//wdt_reset();
+    	wdt_reset();
 
     }
 }
@@ -198,7 +198,7 @@ ISR ( INT0_vect )
 		if ((TCCR1B & 0x7) == 0x0 || t_val > 50)
 		{
 			startTimer1(PRESC_1024);
-			MCUCR |= 0x1; // set trigger to rising edge
+			MCUCR |= 0x3; // set trigger to rising edge
 			task &= ~(1 << GO_TO_SLEEP);
 			task |= (1 << HANDLE_BUTTON);
 		}
@@ -214,7 +214,8 @@ ISR ( INT0_vect )
 			buttonPushLength = 2;
 			// switch trigger edge and restart timer
 			startTimer1(PRESC_1024);
-			MCUCR &= ~0x1; // set trigger back to low
+			MCUCR &= ~0x3; // set trigger back to low
+			task |= (1 << GO_TO_SLEEP);
 		}
 		else if (t_val > 50)
 		{
@@ -222,7 +223,8 @@ ISR ( INT0_vect )
 			buttonPushLength = 1;
 			// switch trigger edge and restart timer
 			startTimer1(PRESC_1024);
-			MCUCR &=  ~0x1; // set trigger back to low
+			MCUCR &=  ~0x3; // set trigger back to low
+			task |= (1 << GO_TO_SLEEP);
 		}
 	}
 
