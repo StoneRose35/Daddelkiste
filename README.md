@@ -3,6 +3,12 @@
 The Daddelkiste consists of a Raspberry Pi 4 connected to the official RPi-Display mounted in a Wooden frame. An Arduino Leonardo drives an additional 4X20 Character LCD display showing CPU temperature, Supply Voltage and various other informations. 
 A unique feature is the simple on/off switch mechanism with low standby power consumption. For this another Atmega8 microprocessor is used. The design also features fan control which activates a fan at a certain threshold temperature, as well as a volume control with analog feel.
 
+## Installation
+A default user "pi" is assumed, furthermode retropie is assumed to be installed in /opt.
+Replace the file /opt/retropie/configs/all/autostart.sh with the one in the repo.
+Create the file /opt/retropie/startup.config, assign "users" group, grant read and write access to the group.
+Copy "hardware_extension.sh" into /etc/init.d/, make it executable.
+
 ## Schematic
 
 ![Schematic](schematic.png)
