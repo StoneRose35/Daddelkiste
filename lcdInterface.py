@@ -81,14 +81,18 @@ def serial_listener():
                 last_vol = int(keyVal["VOL"])
             elif "BAT" in keyVal:
                 battery_voltage = daddelkisteCommon.calculate_battery_voltage(keyVal["BAT"])
-                if battery_voltage < 5.0:
+                if 0.0 < battery_voltage < 5.0:
                     turn_off(0)
             elif "BUT" in keyVal:
                 with open("/opt/retropie/startup.config", "wt") as f:
                     if keyVal["BUT"] == 1: #short
                         f.write("EMULATIONSTATION")
+                        arduino.write("D0Game Mode\n".encode("utf-8"))
                     elif keyVal["BUT"] == 2: #long
                         f.write("DESKTOP")
+                        arduino.write("D0Desktop Mode\n".encode("utf-8"))
+            elif "ERR" in keyVal:
+                arduino.write("D1I2C ERR:{}\n".format(keyVal["ERR"]).encode("utf-8"))
 
 
 
@@ -108,6 +112,7 @@ def serial_writer():
         cpu_temp_old = cpu_temp
         current_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         arduino.write("D3{}\n".format(current_time).encode("utf-8"))
+        arduino.write("S\n".encode("utf-8"))
         time.sleep(0.5)
 
 
@@ -126,7 +131,8 @@ if __name__ == "__main__":
     init_gpio()
     arduino.write("I\n".encode("utf-8"))
     time.sleep(0.01)
-    arduino.write("D0Daddelkiste running\n".encode("utf-8"))
+    arduino.write("D0Init I2C Comm\n".encode("utf-8"))
+    arduino.write("Q\n".encode("utf-8"))
 
     t1 = threading.Thread(target=serial_listener)
     t1.start()
@@ -138,3 +144,4 @@ if __name__ == "__main__":
     arduino.write("V\n".encode("utf-8"))
     time.sleep(0.01)
     serial_writer()
+    
