@@ -7,6 +7,7 @@
 
 #include "system.h"
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include "timers.h"
 
 void startTimer0(uint8_t presc)
@@ -57,8 +58,14 @@ uint16_t getTimer0Prescaler()
 
 void startTimer1(uint8_t presc)
 {
+	//cli();
 	TCNT1 = 0x0;
+	OCR1A = 1000;
+	//sei();
 	TIFR |= (1 << TOV1);
+	TIMSK |= (1 << OCIE1A);
+	//TCCR1B |= (1 << WGM12);
+
 	TCCR1B |= presc & 0x7;
 }
 
@@ -77,7 +84,11 @@ uint16_t getTimer1Value()
 	}
 	else
 	{
-		return TCNT1;
+		uint16_t tval;
+		//cli();
+		tval = TCNT1;
+		//sei();
+		return tval;
 	}
 }
 
