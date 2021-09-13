@@ -20,7 +20,7 @@ int volumeOld=0;
 unsigned int cntr=0; 
 int bat_voltage = 0;
 int fanSpeed;
-char buttonPushLength = 0; // 1: short, 2: long
+int buttonPushLength = 0; // 1: short, 2: long
 
 void sendVolume(int val)
 {
@@ -29,6 +29,34 @@ void sendVolume(int val)
       sentValue += val;
       sentValue += ")\n";
       Serial.print(sentValue);
+}
+
+void readBattery()
+{
+      Wire.beginTransmission(atmega_twi_addr);
+      Wire.write(2);
+      int retcode = Wire.endTransmission();
+      if(retcode!=0)
+      {
+        returnErrorCode(retcode);
+      }
+      delay(2);
+      int bytes_returned = Wire.requestFrom(atmega_twi_addr,2);
+      if (bytes_returned != 2)
+      {
+        returnErrorCode(bytes_returned + 10);
+      }
+      bat_voltage=0;
+      int factor = 256;
+      while (Wire.available()) {
+        char c = Wire.read();
+          bat_voltage = bat_voltage + factor * c;
+          factor /= 256;
+      }
+      String bat_msg = "BAT(";
+      bat_msg += bat_voltage;
+      bat_msg += ")\n";
+      Serial.print(bat_msg);
 }
 
 void returnErrorCode(int code)
@@ -49,7 +77,6 @@ void initWatchdog()
 
 void setup() {
 
-  initWatchdog();
   // generate a square wave for the constrast voltage
   analogWrite(contrast_gen,128);
 
@@ -60,41 +87,26 @@ void setup() {
   // 3.3v reference for the volume pot
   analogReference(EXTERNAL);
   
-  delay(100);
-  Wire.begin();
-  
-  // switch off audio amp
-  Wire.beginTransmission(atmega_twi_addr);
-  Wire.write(0);
-  Wire.endTransmission();
-
-  // get the button press length
-  Wire.beginTransmission(atmega_twi_addr);
-  Wire.write(3);
-  Wire.endTransmission();
-  delay(2);
-  Wire.requestFrom(atmega_twi_addr,1);
-  while (Wire.available()) {
-        buttonPushLength = Wire.read();
-  }
+  delay(50);
 
   // set up the LCD's number of columns and rows:
   lcd.begin(20, 4);
   // Print a message to the LCD.
   lcd.print("Daddelkiste booting");
-
+  delay(2);
   Serial.begin(9600);
-  
+
 }
 
 void loop() {
-  wdr();
+
   int volumeValue = analogRead(A0);
   if (volumeValue > volumeOld)
   {
     if (volumeValue - volumeOld > 4)
     {
       sendVolume(volumeValue);
+
       volumeOld = volumeValue;
     }
   }
@@ -103,6 +115,7 @@ void loop() {
     if (volumeOld - volumeValue > 4)
     {
      sendVolume(volumeValue);
+     wdr();
       volumeOld = volumeValue;
     }
   }
@@ -110,6 +123,7 @@ void loop() {
   if (Serial.available() > 0)
   {
     String data = Serial.readStringUntil('\n');
+    wdr();
     if (data.startsWith("F"))
     {
       // command for setting the fan speed
@@ -148,10 +162,25 @@ void loop() {
     }
     else if (data.startsWith("B"))
     {
-      const char* bpAddr=&buttonPushLength;
+      Wire.beginTransmission(atmega_twi_addr);
+      Wire.write(3);
+      int retcode = Wire.endTransmission();
+      if (retcode!=0)
+      {
+        returnErrorCode(retcode);  
+      }
+      delay(2);
+      int bytesreturned = Wire.requestFrom(atmega_twi_addr,1);
+      while (Wire.available()) {
+        buttonPushLength = Wire.read();
+      }
+      if (bytesreturned!= 1)
+      {
+        returnErrorCode(bytesreturned + 10);
+      }
       String sentValue;
       sentValue = "BUT(";
-      sentValue += atoi(bpAddr);
+      sentValue += buttonPushLength;
       sentValue += ")\n";
       Serial.print(sentValue);
     }
@@ -159,37 +188,14 @@ void loop() {
     {
       lcd.begin(20, 4);  
     }
-  }
-
-  if (cntr>=500)
-  {
-      Wire.beginTransmission(atmega_twi_addr);
-      Wire.write(2);
-      int retcode = Wire.endTransmission();
-      if(retcode!=0)
-      {
-        returnErrorCode(retcode);
-      }
-      delay(2);
-      int bytes_returned = Wire.requestFrom(atmega_twi_addr,2);
-      if (bytes_returned != 2)
-      {
-        returnErrorCode(bytes_returned + 10);
-      }
-      bat_voltage=0;
-      int factor = 256;
-      while (Wire.available()) {
-        char c = Wire.read();
-          bat_voltage = bat_voltage + factor * c;
-          factor /= 256;
-      }
-      String bat_msg = "BAT(";
-      bat_msg += bat_voltage;
-      bat_msg += ")\n";
-      Serial.print(bat_msg);
-      cntr=0;
-  }
-  else {
-      cntr += 1;
+    else if (data.startsWith("S"))
+    {
+      readBattery();
+      //wdr();
+    }
+    else if (data.startsWith("Q"))
+    {
+      Wire.begin();  
+    }
   }
 }
