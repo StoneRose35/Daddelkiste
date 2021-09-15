@@ -99,15 +99,27 @@ void handleButtonPush()
 	if (rpi_sense > 100)
 	// raspberry pi  is on --> switch off
 	{
-		// switch off TWI/i2c
-		TWCR &= ~((1 << TWEN) | (1 << TWEA));
-		PORTD &= ~0x1;
+
+		
 		PORTD &= ~(1 << PD7); // audio amp off
 		PORTB &= ~(1 << PB1);
 		DDRB |= (1 << DDB1);
 		_delay_ms(10.0);
 		DDRB &= ~(1 << DDB1);
 		
+		// wait until raspberry pi is switched off before switching off the twi
+		while (rpi_sense > 100)
+		{
+			ADMUX &= ~0xF;
+			ADCSRA |= (1 << ADSC)| (1 << ADIF);
+			while ((ADCSRA & (1 << ADIF)) == 0)
+			{
+			}
+			rpi_sense = ADC;
+		}
+		// switch off TWI/i2c
+		PORTD &= ~0x1;
+		TWCR &= ~((1 << TWEN) | (1 << TWEA));
 	}
 	else
 	{

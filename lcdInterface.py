@@ -19,6 +19,8 @@ arduino = serial.Serial(SERIAL_DEVICE)
 battery_voltage = 12.
 vol_changing = False
 next_vol = -1
+serial_writer_state = 0 #0: off, 1: winding down, 2: running
+serial_reader_state = 0 #0: off, 1: winding down, 2: running
 
 
 def convert_value(val):
@@ -63,10 +65,8 @@ def get_cpu_temp():
 
 def serial_listener():
     last_vol = 0
-    global battery_voltage
-    global vol_changing
-    global next_vol
-    while True:
+    global battery_voltage, vol_changing, next_vol, serial_reader_state
+    while serial_reader_state > 0:
         keyVal = convert_value(read_serial_values())
         if keyVal is not None:
             if "VOL" in keyVal:
@@ -93,14 +93,16 @@ def serial_listener():
                         arduino.write("D0Desktop Mode\n".encode("utf-8"))
             elif "ERR" in keyVal:
                 arduino.write("D1I2C ERR:{}\n".format(keyVal["ERR"]).encode("utf-8"))
-
+        if serial_reader_state == 1:
+            serial_reader_state = 0
 
 
 def serial_writer():
     cpu_temp_old = 0.0
     fan_idx_old = 0
     global battery_voltage
-    while True:
+    global serial_writer_state
+    while serial_writer_state > 0:
         cpu_temp = get_cpu_temp()
         if cpu_temp is not None and abs(cpu_temp_old - cpu_temp) > 0.1:
             tempv_array = list("D2T: {:.1f}'C B: {:.1f}V\n".format(cpu_temp, battery_voltage).encode("utf-8"))
@@ -113,11 +115,18 @@ def serial_writer():
         current_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         arduino.write("D3{}\n".format(current_time).encode("utf-8"))
         arduino.write("S\n".encode("utf-8"))
+        if serial_writer_state == 1:
+            serial_writer_state = 0
         time.sleep(0.5)
 
 
 def turn_off(channel):
+    global serial_reader_state, serial_writer_state
     arduino.write("D0Daddelkiste stopping\n".encode("utf-8"))
+    serial_writer_state = 1
+    serial_reader_state = 1
+    while serial_writer_state > 0 or serial_reader_state > 0:
+        pass
     subprocess.call(["sudo", "shutdown", "-h", "now"], shell=False)
 
 
@@ -134,6 +143,7 @@ if __name__ == "__main__":
     arduino.write("D0Init I2C Comm\n".encode("utf-8"))
     arduino.write("Q\n".encode("utf-8"))
 
+    serial_reader_state = 2
     t1 = threading.Thread(target=serial_listener)
     t1.start()
     time.sleep(0.01)
@@ -143,5 +153,6 @@ if __name__ == "__main__":
     # get initial volume reading
     arduino.write("V\n".encode("utf-8"))
     time.sleep(0.01)
+    serial_writer_state = 2
     serial_writer()
     
