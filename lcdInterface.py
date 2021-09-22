@@ -15,13 +15,12 @@ BAT_CONVERSION = 0.011695888188
 
 fan_speed_calculator = daddelkisteCommon.FanSpeedCalculator()
 
-arduino = serial.Serial(SERIAL_DEVICE)
+arduino = serial.Serial(SERIAL_DEVICE, timeout=0.3)
 battery_voltage = 12.
 vol_changing = False
 next_vol = -1
 serial_writer_state = 0 #0: off, 1: winding down, 2: running
 serial_reader_state = 0 #0: off, 1: winding down, 2: running
-
 
 def convert_value(val):
     res = None
@@ -65,7 +64,8 @@ def get_cpu_temp():
 
 def serial_listener():
     last_vol = 0
-    global battery_voltage, vol_changing, next_vol, serial_reader_state
+    global battery_voltage, vol_changing, next_vol
+    global serial_reader_state 
     while serial_reader_state > 0:
         keyVal = convert_value(read_serial_values())
         if keyVal is not None:
@@ -95,6 +95,7 @@ def serial_listener():
                 arduino.write("D1I2C ERR:{}\n".format(keyVal["ERR"]).encode("utf-8"))
         if serial_reader_state == 1:
             serial_reader_state = 0
+            
 
 
 def serial_writer():
@@ -121,12 +122,17 @@ def serial_writer():
 
 
 def turn_off(channel):
-    global serial_reader_state, serial_writer_state
+    global serial_reader_state
+    global serial_writer_state
+    global t1
     arduino.write("D0Daddelkiste stopping\n".encode("utf-8"))
-    serial_writer_state = 1
     serial_reader_state = 1
+    serial_writer_state = 1    
+
     while serial_writer_state > 0 or serial_reader_state > 0:
-        pass
+        print("states {}, {}".format(serial_writer_state,serial_reader_state))
+        time.sleep(0.1)
+
     subprocess.call(["sudo", "shutdown", "-h", "now"], shell=False)
 
 
@@ -137,6 +143,7 @@ def init_gpio():
 
 
 if __name__ == "__main__":
+
     init_gpio()
     arduino.write("I\n".encode("utf-8"))
     time.sleep(0.01)
