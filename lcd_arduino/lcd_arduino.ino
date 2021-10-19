@@ -13,6 +13,7 @@ const int rs = 12, en = 11, d4 = A2, d5 = A3, d6 = A4, d7 = A5;
 const int fan = 9;
 const int contrast_gen = 6;
 const int atmega_twi_addr = 10;
+const int resetline = 7;
 
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
@@ -79,6 +80,9 @@ void setup() {
 
   // generate a square wave for the constrast voltage
   analogWrite(contrast_gen,128);
+
+  // predefine reset line to output zero if defined as output
+  digitalWrite(resetline,0);
 
   //slow down PWM Frequency
   TCCR1B&=0b11111000;
@@ -193,9 +197,16 @@ void loop() {
       readBattery();
       //wdr();
     }
-    else if (data.startsWith("Q"))
+    else if (data.startsWith("Q")) // start i2c communication
     {
       Wire.begin();  
+    }
+    else if (data.startsWith("J")) // pull down reset for 2 ms
+    {
+      pinMode(resetline,OUTPUT);
+      delay(2);
+      pinMode(resetline,INPUT);
+      
     }
   }
 }
