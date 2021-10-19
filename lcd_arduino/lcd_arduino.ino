@@ -203,6 +203,7 @@ void loop() {
     }
     else if (data.startsWith("J")) // pull down reset for 2 ms
     {
+      Wire.begin();
       pinMode(resetline,OUTPUT);
       delay(2);
       pinMode(resetline,INPUT);
