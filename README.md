@@ -22,6 +22,8 @@ The Raspberry Pi and the Arduino communicate over Serial USB. The possible messa
 * D<0 to 3><Text (max 20 chars)>\n: Display the given information on a certain line, ex. "D1CPU Speed: 788MHz\n" displays "CPU Speed: 788MHz" on the second line
 * V: Return the Volume Pot reading
 * B: Return button push length
+* Q: Initialize I2C Communication between Arduino and PowerController
+* J: Reset Power Controller: Pulls the reset Pin on the PowerController, used in cases when the i2c communication ist stuck during startup
 
 The Arduino send the following commands to the Raspberry pi
 * VOL(<number from 0 to 1023>)\n: passes the reading of the volume pot to the raspberry pi
@@ -33,4 +35,4 @@ The Arduino  and the Atmega communication over i2c with the Arduino only acting 
 * 0x00: Switch the audio amp off
 * 0x01: Switch the audio amp on
 * 0x02: Request Battery Voltage reading, two bytes must be requested after having issued this command
-* 0x03: Request Button Push length, one byte must be request after having issued this command, 1: short push, starts emulationstation, 2: long push: starts normal desktop environment
+* 0x03: Request Button Push length, one byte must be requested after having issued this command, 1: short push, starts emulationstation, 2: long push: starts normal desktop environment
