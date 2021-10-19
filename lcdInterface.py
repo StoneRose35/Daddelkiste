@@ -21,7 +21,7 @@ vol_changing = False
 next_vol = -1
 serial_writer_state = 0 #0: off, 1: winding down, 2: running
 serial_reader_state = 0 #0: off, 1: winding down, 2: running
-
+i2c_error_occurred = False
 def convert_value(val):
     res = None
     m = re.search("([A-Z_]+)\\(([0-9]*)\\)", val)
@@ -65,7 +65,7 @@ def get_cpu_temp():
 def serial_listener():
     last_vol = 0
     global battery_voltage, vol_changing, next_vol
-    global serial_reader_state 
+    global serial_reader_state, i2c_error_occurred
     while serial_reader_state > 0:
         keyVal = convert_value(read_serial_values())
         if keyVal is not None:
@@ -93,6 +93,7 @@ def serial_listener():
                         arduino.write("D0Desktop Mode\n".encode("utf-8"))
             elif "ERR" in keyVal:
                 arduino.write("D1I2C ERR:{}\n".format(keyVal["ERR"]).encode("utf-8"))
+                i2c_error_occurred = True
         if serial_reader_state == 1:
             serial_reader_state = 0
             
@@ -143,17 +144,25 @@ def init_gpio():
 
 
 if __name__ == "__main__":
-
+    
     init_gpio()
+    
+    serial_reader_state = 2
+    t1 = threading.Thread(target=serial_listener)
+    t1.start()
+    
     arduino.write("I\n".encode("utf-8"))
     time.sleep(0.01)
     arduino.write("D0Init I2C Comm\n".encode("utf-8"))
     arduino.write("Q\n".encode("utf-8"))
 
-    serial_reader_state = 2
-    t1 = threading.Thread(target=serial_listener)
-    t1.start()
-    time.sleep(0.01)
+    time.sleep(0.05)
+    if (i2c_error_occurred==True):
+        arduino.write("J\n".encode(utf-8"))
+        time.sleep(0.05)
+        i2c_error_occurred=False
+        arduino.write("Q\n".encode("utf-8")
+        time.sleep(0.05)
     # get button push length, start retropie on a short push and normal desktop environment on long push
     arduino.write("B\n".encode("utf-8"))
     time.sleep(0.01)
