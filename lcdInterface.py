@@ -155,20 +155,27 @@ if __name__ == "__main__":
     time.sleep(0.01)
     arduino.write("D0Init I2C Comm\n".encode("utf-8"))
     arduino.write("Q\n".encode("utf-8"))
-
     time.sleep(0.05)
-    if (i2c_error_occurred==True):
-        arduino.write("J\n".encode(utf-8"))
-        time.sleep(0.05)
-        i2c_error_occurred=False
-        arduino.write("Q\n".encode("utf-8")
-        time.sleep(0.05)
+    
     # get button push length, start retropie on a short push and normal desktop environment on long push
     arduino.write("B\n".encode("utf-8"))
     time.sleep(0.01)
     # get initial volume reading
     arduino.write("V\n".encode("utf-8"))
     time.sleep(0.01)
+    if (i2c_error_occurred==True):
+        arduino.write("J\n".encode(utf-8"))
+        time.sleep(0.05)
+        i2c_error_occurred=False
+        arduino.write("Q\n".encode("utf-8"))
+        time.sleep(0.05)
+        # get button push length, start retropie on a short push and normal desktop environment on long push
+        arduino.write("B\n".encode("utf-8"))
+        time.sleep(0.01)
+        # get initial volume reading
+        arduino.write("V\n".encode("utf-8"))
+        time.sleep(0.01)
+
     serial_writer_state = 2
     serial_writer()
     
