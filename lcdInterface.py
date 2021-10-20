@@ -164,7 +164,7 @@ if __name__ == "__main__":
     arduino.write("V\n".encode("utf-8"))
     time.sleep(0.01)
     if (i2c_error_occurred==True):
-        arduino.write("J\n".encode(utf-8"))
+        arduino.write("J\n".encode("utf-8"))
         time.sleep(0.05)
         i2c_error_occurred=False
         arduino.write("Q\n".encode("utf-8"))

@@ -7,7 +7,7 @@ A unique feature is the simple on/off switch mechanism with low standby power co
 A default user "pi" is assumed, furthermode retropie is assumed to be installed in /opt.
 Replace the file /opt/retropie/configs/all/autostart.sh with the one in the repo.
 Create the file /opt/retropie/startup.config, assign "users" group, grant read and write access to the group.
-Copy "hardware_extension.sh" into /etc/init.d/, make it executable.
+Copy "hardware_extension.sh" and "hdmiSwitcher.sh" into /etc/init.d/, make both executable.
 
 ## Schematic
 
