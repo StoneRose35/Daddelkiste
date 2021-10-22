@@ -8,6 +8,7 @@ import threading
 import os
 import RPi.GPIO as GPIO
 import daddelkisteCommon
+import joystickHandler
 
 SERIAL_DEVICE = "/dev/ttyACM0"
 GPIO_OFFSWITCH_PIN = 11
@@ -140,7 +141,7 @@ def turn_off(channel):
 def init_gpio():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(GPIO_OFFSWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.add_event_detect(GPIO_OFFSWITCH_PIN, GPIO.FALLING, callback=turn_off, bouncetime=10000)
+    GPIO.add_event_detect(GPIO_OFFSWITCH_PIN, GPIO.FALLING, callback=turn_off, bouncetime=30)
 
 
 if __name__ == "__main__":
@@ -163,7 +164,7 @@ if __name__ == "__main__":
     # get initial volume reading
     arduino.write("V\n".encode("utf-8"))
     time.sleep(0.01)
-    if (i2c_error_occurred==True):
+    if i2c_error_occurred is True:
         arduino.write("J\n".encode("utf-8"))
         time.sleep(0.05)
         i2c_error_occurred=False
@@ -178,4 +179,6 @@ if __name__ == "__main__":
 
     serial_writer_state = 2
     serial_writer()
-    
+
+    daddelJoystick = joystickHandler.Joystick()
+    daddelJoystick.init_joystick()
