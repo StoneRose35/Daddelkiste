@@ -23,6 +23,10 @@ next_vol = -1
 serial_writer_state = 0 #0: off, 1: winding down, 2: running
 serial_reader_state = 0 #0: off, 1: winding down, 2: running
 i2c_error_occurred = False
+
+def logprint(string):
+    print("{}: {}".format(datetime.datetime.now().isoformat(), string))
+
 def convert_value(val):
     res = None
     m = re.search("([A-Z_]+)\\(([0-9]*)\\)", val)
@@ -93,7 +97,9 @@ def serial_listener():
                         f.write("DESKTOP")
                         arduino.write("D0Desktop Mode\n".encode("utf-8"))
             elif "ERR" in keyVal:
-                arduino.write("D1I2C ERR:{}\n".format(keyVal["ERR"]).encode("utf-8"))
+                err_msg = "D1I2C ERR:{}".format(keyVal["ERR"])
+                logprint(err_msg)
+                arduino.write((err_msg + "\n").encode("utf-8"))
                 i2c_error_occurred = True
         if serial_reader_state == 1:
             serial_reader_state = 0
@@ -106,6 +112,9 @@ def serial_writer():
     global battery_voltage
     global serial_writer_state
     while serial_writer_state > 0:
+        if i2c_error_occurred is True:
+            arduino.write("J\n".encode("utf-8"))
+            time.sleep(0.1)
         cpu_temp = get_cpu_temp()
         if cpu_temp is not None and abs(cpu_temp_old - cpu_temp) > 0.1:
             tempv_array = list("D2T: {:.1f}'C B: {:.1f}V\n".format(cpu_temp, battery_voltage).encode("utf-8"))
@@ -132,7 +141,7 @@ def turn_off(channel):
     serial_writer_state = 1    
 
     while serial_writer_state > 0 or serial_reader_state > 0:
-        print("states {}, {}".format(serial_writer_state,serial_reader_state))
+        logprint("during shutdown: states {}, {}".format(serial_writer_state,serial_reader_state))
         time.sleep(0.1)
 
     subprocess.call(["sudo", "shutdown", "-h", "now"], shell=False)
@@ -145,40 +154,47 @@ def init_gpio():
 
 
 if __name__ == "__main__":
-    
+    logprint("starting up")
     init_gpio()
-    
     serial_reader_state = 2
     t1 = threading.Thread(target=serial_listener)
     t1.start()
-    
+    logprint("init display")
     arduino.write("I\n".encode("utf-8"))
     time.sleep(0.01)
     arduino.write("D0Init I2C Comm\n".encode("utf-8"))
+    logprint("starting i2c interface of the arduino")
     arduino.write("Q\n".encode("utf-8"))
     time.sleep(0.05)
     
     # get button push length, start retropie on a short push and normal desktop environment on long push
+    logprint("request button push length")
     arduino.write("B\n".encode("utf-8"))
     time.sleep(0.01)
     # get initial volume reading
+    logprint("requesting volume initially")
     arduino.write("V\n".encode("utf-8"))
     time.sleep(0.01)
-    if i2c_error_occurred is True:
-        arduino.write("J\n".encode("utf-8"))
-        time.sleep(0.05)
-        i2c_error_occurred=False
-        arduino.write("Q\n".encode("utf-8"))
-        time.sleep(0.05)
-        # get button push length, start retropie on a short push and normal desktop environment on long push
-        arduino.write("B\n".encode("utf-8"))
-        time.sleep(0.01)
-        # get initial volume reading
-        arduino.write("V\n".encode("utf-8"))
-        time.sleep(0.01)
+
+    #if i2c_error_occurred is True:
+    #    logprint("i2c error occurred during startup, resetting the Powercontroller")
+    #    arduino.write("J\n".encode("utf-8"))
+    #    time.sleep(0.05)
+    #    i2c_error_occurred=False
+    #    arduino.write("Q\n".encode("utf-8"))
+    #    time.sleep(0.05)
+    #    # get button push length, start retropie on a short push and normal desktop environment on long push
+    #    arduino.write("B\n".encode("utf-8"))
+    #    time.sleep(0.01)
+    #    # get initial volume reading
+    #    arduino.write("V\n".encode("utf-8"))
+    #    time.sleep(0.01)
 
     serial_writer_state = 2
+    logprint("starting monitorig thread (serial writer)")
     serial_writer()
 
+    logprint("starting gpio joystick driver")
     daddelJoystick = joystickHandler.Joystick()
     daddelJoystick.init_joystick()
+    logprint("*** up'n'runnin' ! ***")

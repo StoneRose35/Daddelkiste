@@ -14,7 +14,7 @@
 case "$1" in
   start)
     echo "Starting lcdInterface.py"
-    /usr/local/bin/lcdInterface.py &
+    /usr/local/bin/lcdInterface.py >> /var/log/daddelkiste.log &
     ;;
   stop)
     echo "Stopping lcdInterface.py"
