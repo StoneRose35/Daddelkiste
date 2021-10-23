@@ -22,7 +22,9 @@ The Raspberry Pi and the Arduino communicate over Serial USB. The possible messa
 * D<0 to 3><Text (max 20 chars)>\n: Display the given information on a certain line, ex. "D1CPU Speed: 788MHz\n" displays "CPU Speed: 788MHz" on the second line
 * V: Return the Volume Pot reading
 * B: Return button push length
+* S: Request battery voltage reading, this is translated into 0x02 sent over i2c
 * Q: Initialize I2C Communication between Arduino and PowerController
+* I: Initialize the LCD Display
 * J: Reset Power Controller: Pulls the reset Pin on the PowerController, used in cases when the i2c communication ist stuck during startup
 
 The Arduino send the following commands to the Raspberry pi
