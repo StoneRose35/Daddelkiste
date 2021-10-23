@@ -23,6 +23,7 @@ The Raspberry Pi and the Arduino communicate over Serial USB. The possible messa
 * V: Return the Volume Pot reading
 * B: Return button push length
 * Q: Initialize I2C Communication between Arduino and PowerController
+* I: Initialize the LCD Display
 * J: Reset Power Controller: Pulls the reset Pin on the PowerController, used in cases when the i2c communication ist stuck during startup
 
 The Arduino send the following commands to the Raspberry pi
