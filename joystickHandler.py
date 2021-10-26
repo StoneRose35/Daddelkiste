@@ -64,3 +64,9 @@ class Joystick:
     def init_joystick(self):
         for el in pinmapping:
             self.init_gpio(el[0])
+            
+if __name__ == "__main__":
+    joystick = Joystick()
+    joystick.init_joystick()
+    while True:
+        pass

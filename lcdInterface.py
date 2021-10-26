@@ -8,7 +8,6 @@ import threading
 import os
 import RPi.GPIO as GPIO
 import daddelkisteCommon
-import joystickHandler
 
 SERIAL_DEVICE = "/dev/ttyACM0"
 GPIO_OFFSWITCH_PIN = 11
@@ -190,9 +189,6 @@ if __name__ == "__main__":
     #    arduino.write("V\n".encode("utf-8"))
     #    time.sleep(0.01)
 
-    logprint("starting gpio joystick driver")
-    daddelJoystick = joystickHandler.Joystick()
-    daddelJoystick.init_joystick()
     
     serial_writer_state = 2
     logprint("starting monitoring thread (serial writer)")
