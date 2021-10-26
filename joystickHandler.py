@@ -1,6 +1,8 @@
+#!/usr/bin/python3
 import evdev
 import evdev.ecodes as e
 import RPi.GPIO as GPIO
+import time
 
 GC_GPIOPIN_AX_L = 13
 GC_GPIOPIN_AX_R = 15
@@ -44,6 +46,7 @@ class Joystick:
         self.virtdevice = evdev.UInput(self.capabilities, "DaddelJoystick", vendor=9999, product=8888)
 
     def handle_gpio_event(self, mappingel):
+        time.sleep(0.01)
         # mappingel: channel,etype,code,val_low,val_high
         if GPIO.input(mappingel[0]):
             self.virtdevice.write(mappingel[1], mappingel[2], mappingel[4])
@@ -59,7 +62,7 @@ class Joystick:
     def init_gpio(self, pin_nr):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin_nr, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(pin_nr, GPIO.BOTH, callback=self.joystick_callback, bouncetime=30)
+        GPIO.add_event_detect(pin_nr, GPIO.BOTH, callback=self.joystick_callback, bouncetime=3)
 
     def init_joystick(self):
         for el in pinmapping:
@@ -69,4 +72,4 @@ if __name__ == "__main__":
     joystick = Joystick()
     joystick.init_joystick()
     while True:
-        pass
+        time.sleep(3)

@@ -1,5 +1,5 @@
 
-FAN_SPEEDS = [{"temperature":58.0, "fan_speed": 255}, {"temperature": 65.0, "fan_speed": 255}]
+FAN_SPEEDS = [{"temperature": 0.0, "fan_speed": 0},{"temperature":58.0, "fan_speed": 255}, {"temperature": 85.0, "fan_speed": 255}]
 DELTA_T = 5.0
 fan_idx_old = 0
 
@@ -20,23 +20,11 @@ class FanSpeedCalculator:
 
     def compute_fan_speed(self, cpu_temp):
         fan_idx = 0
-        for f in FAN_SPEEDS:
-            if cpu_temp > f["temperature"]:
-                fan_idx += 1
-        if fan_idx > self.fan_idx_old:
-            outval = FAN_SPEEDS[fan_idx -1]["fan_speed"]
-        else:
-            fan_idx = len(FAN_SPEEDS)
-            for f in reversed(FAN_SPEEDS):
-                if cpu_temp < f["temperature"] - DELTA_T:
-                    fan_idx -= 1
-            if 0 < fan_idx < self.fan_idx_old:
-                outval = FAN_SPEEDS[fan_idx - 1]["fan_speed"]
-            elif fan_idx == 0:
-                outval = 0
-            elif self.fan_idx_old > 0:
-                outval = FAN_SPEEDS[self.fan_idx_old - 1]["fan_speed"]
-            else:
-                outval = 0
-        self.fan_idx_old = fan_idx
+        outval = FAN_SPEEDS[self.fan_idx_old]["fan_speed"]
+        if cpu_temp > FAN_SPEEDS[self.fan_idx_old+1]["temperature"]:
+            outval = FAN_SPEEDS[self.fan_idx_old+1]["fan_speed"]
+            self.fan_idx_old += 1
+        elif cpu_temp < FAN_SPEEDS[self.fan_idx_old]["temperature"] - DELTA_T:
+            outval = FAN_SPEEDS[self.fan_idx_old-1]["fan_speed"]
+            self.fan_idx_old -= 1
         return outval
