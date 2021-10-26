@@ -190,11 +190,12 @@ if __name__ == "__main__":
     #    arduino.write("V\n".encode("utf-8"))
     #    time.sleep(0.01)
 
-    serial_writer_state = 2
-    logprint("starting monitorig thread (serial writer)")
-    serial_writer()
-
     logprint("starting gpio joystick driver")
     daddelJoystick = joystickHandler.Joystick()
     daddelJoystick.init_joystick()
-    logprint("*** up'n'runnin' ! ***")
+    
+    serial_writer_state = 2
+    logprint("starting monitoring thread (serial writer)")
+    serial_writer()
+
+
