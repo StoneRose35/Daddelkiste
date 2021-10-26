@@ -1,5 +1,5 @@
 
-FAN_SPEEDS = [{"temperature":55.0, "fan_speed": 255}, {"temperature": 60.0, "fan_speed": 255}]
+FAN_SPEEDS = [{"temperature":50.0, "fan_speed": 255}, {"temperature": 65.0, "fan_speed": 255}]
 DELTA_T = 2.5
 fan_idx_old = 0
 
