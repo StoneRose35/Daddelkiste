@@ -40,7 +40,7 @@
 volatile uint8_t last_cmd;
 volatile uint16_t bat_voltage;
 volatile uint8_t task;
-volatile uint8_t buttonPushLength=0; // 1: short, 2: long
+volatile uint8_t buttonPushLength=1; // 1: short, 2: long
 volatile uint8_t timerOverflown = 0;
 volatile uint8_t transmissionOngoing = 0;
 
@@ -135,7 +135,7 @@ void handleButtonPush()
 			
 			// read the SCL as an analog input and wait until it remains high for at two consecutive measurements 40 ms  apart
 			// then switch the twi back on
-			/*
+			
 			uint8_t n_highs = 0;		
 			while (n_highs < 2)
 			{
@@ -161,7 +161,7 @@ void handleButtonPush()
 					n_highs = 0;
 				}
 			}
-			*/
+			
 			PORTD |= 1;
 			ADMUX &= ~0xF;
 			TWCR |= (1 << TWEN) | (1 << TWEA) | (1 << TWINT);
@@ -173,6 +173,7 @@ void handleButtonPush()
 
 int main(void)
 {
+	buttonPushLength = 1;
 	uint16_t scl_level;
 	  	wdt_reset();
     // setup adc
@@ -198,22 +199,22 @@ int main(void)
 	
 	TWCR |= (1 << TWIE);	
 	// check initially if arduino is ready, if so: enable TWI/i2c
-	//ADMUX &= ~0xF;
-	//ADMUX |= (1 << MUX2) | (1 << MUX0);
-	//ADCSRA |= (1 << ADSC) | (1 << ADIF);
-	//while ((ADCSRA & (1 << ADIF)) == 0)
-	//{
-	//}
-	//scl_level = ADC;
-	//if (scl_level > 800)
-	///{
+	ADMUX &= ~0xF;
+	ADMUX |= (1 << MUX2) | (1 << MUX0);
+	ADCSRA |= (1 << ADSC) | (1 << ADIF);
+	while ((ADCSRA & (1 << ADIF)) == 0)
+	{
+	}
+	scl_level = ADC;
+	if (scl_level > 800)
+	{
 		PORTD |= 1;
 		ADMUX &= ~0xF;
 		TWCR |= (1 << TWEN) | (1 << TWEA) | (1 << TWINT);
-	//}
+	}
 	
 	// init Watchdog
-	enableWdt();
+	//enableWdt();
 
 	
 	sei();
@@ -241,14 +242,14 @@ int main(void)
     	if ((TCCR1B & 0x7) == 0 && transmissionOngoing == 0 && task == 0)
     	{
 			
-			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-			disableWdt();
+			set_sleep_mode(SLEEP_MODE_IDLE);
+			//disableWdt();
 			sei();
 			PORTD &= ~0x3;
 			sleep_mode();
     	}
 		
-    	wdt_reset();
+    	//wdt_reset();
 
     }
 }
@@ -306,7 +307,6 @@ ISR(INT0_vect)
 		TCNT1 = 0;
 		MCUCR &=  ~0x3; // set trigger back to low
 	}
-	//PORTD |= 0x2;
 }
 
 
