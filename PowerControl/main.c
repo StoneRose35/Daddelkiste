@@ -135,8 +135,8 @@ void handleButtonPush()
 			
 			// read the SCL as an analog input and wait until it remains high for at two consecutive measurements 40 ms  apart
 			// then switch the twi back on
-			uint8_t n_highs = 0;
-					
+			/*
+			uint8_t n_highs = 0;		
 			while (n_highs < 2)
 			{
 				wdt_reset();
@@ -161,6 +161,7 @@ void handleButtonPush()
 					n_highs = 0;
 				}
 			}
+			*/
 			PORTD |= 1;
 			ADMUX &= ~0xF;
 			TWCR |= (1 << TWEN) | (1 << TWEA) | (1 << TWINT);
@@ -197,19 +198,19 @@ int main(void)
 	
 	TWCR |= (1 << TWIE);	
 	// check initially if arduino is ready, if so: enable TWI/i2c
-	ADMUX &= ~0xF;
-	ADMUX |= (1 << MUX2) | (1 << MUX0);
-	ADCSRA |= (1 << ADSC) | (1 << ADIF);
-	while ((ADCSRA & (1 << ADIF)) == 0)
-	{
-	}
-	scl_level = ADC;
-	if (scl_level > 800)
-	{
+	//ADMUX &= ~0xF;
+	//ADMUX |= (1 << MUX2) | (1 << MUX0);
+	//ADCSRA |= (1 << ADSC) | (1 << ADIF);
+	//while ((ADCSRA & (1 << ADIF)) == 0)
+	//{
+	//}
+	//scl_level = ADC;
+	//if (scl_level > 800)
+	///{
 		PORTD |= 1;
 		ADMUX &= ~0xF;
 		TWCR |= (1 << TWEN) | (1 << TWEA) | (1 << TWINT);
-	}
+	//}
 	
 	// init Watchdog
 	enableWdt();
@@ -236,16 +237,17 @@ int main(void)
     	{
     		sendButtonPushLength();
     	}
-		/*
+		
     	if ((TCCR1B & 0x7) == 0 && transmissionOngoing == 0 && task == 0)
     	{
 			
 			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 			disableWdt();
 			sei();
+			PORTD &= ~0x3;
 			sleep_mode();
     	}
-		*/
+		
     	wdt_reset();
 
     }
