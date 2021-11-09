@@ -47,15 +47,15 @@ volatile uint8_t transmissionOngoing = 0;
 
 void readBatVoltage()
 {
-			// read battery voltage
-			ADMUX &= ~0xF;
-			ADMUX |= (1 << MUX0);
-			ADCSRA |= (1 << ADSC) | (1 << ADIF);
-			while ((ADCSRA & (1 << ADIF)) == 0)
-			{
-			}
-			bat_voltage = ADC;
-			task &= ~(1 << READ_BATTERY_VOLTAGE);
+	// read battery voltage
+	ADMUX &= ~0xF;
+	ADMUX |= (1 << MUX0);
+	ADCSRA |= (1 << ADSC) | (1 << ADIF);
+	while ((ADCSRA & (1 << ADIF)) == 0)
+	{
+	}
+	bat_voltage = ADC;
+	task &= ~(1 << READ_BATTERY_VOLTAGE);
 }
 
 void sendBatteryMsb()
@@ -68,11 +68,11 @@ void sendBatteryMsb()
 
 void sendBatteryLsb()
 {
-		TWDR = bat_voltage & 0xFF;
-		TWCR &= ~(1 >> TWEA);
-		TWCR |= (1 << TWINT) | (1 << TWEN);
-		task &= ~(1 << SEND_BATTERY_VOLTAGE_LSB);
-		transmissionOngoing = 0;
+	TWDR = bat_voltage & 0xFF;
+	TWCR &= ~(1 >> TWEA);
+	TWCR |= (1 << TWINT) | (1 << TWEN);
+	task &= ~(1 << SEND_BATTERY_VOLTAGE_LSB);
+	transmissionOngoing = 0;
 }
 
 void sendButtonPushLength()
@@ -107,6 +107,7 @@ void handleButtonPush()
 		_delay_ms(10.0);
 		DDRB &= ~(1 << DDB1);
 		
+		/*
 		// wait until raspberry pi is switched off before switching off the twi
 		while (rpi_sense > 100)
 		{
@@ -120,12 +121,17 @@ void handleButtonPush()
 		// switch off TWI/i2c
 		PORTD &= ~0x1;
 		TWCR &= ~((1 << TWEN) | (1 << TWEA));
+		*/
 	}
 	else
 	{
 		readBatVoltage();
 		if (bat_voltage > BAT_TH)
 		{
+			// switch off TWI/i2c initially
+			PORTD &= ~0x1;
+			TWCR &= ~((1 << TWEN) | (1 << TWEA));
+					
 			PORTD &= ~0x2;
 			PORTD &= ~(1 << PD7); // audio amp off
 			PORTB &= ~(1 << PB0);
@@ -285,7 +291,8 @@ ISR(INT0_vect)
 		{
 			startTimer1(PRESC_1024);
 			MCUCR |= 0x3; // set trigger to rising edge
-			handleButtonPush();
+			task |= (1 << HANDLE_BUTTON);
+			//handleButtonPush();
 		}
 		
 	}
