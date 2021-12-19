@@ -40,22 +40,22 @@
 volatile uint8_t last_cmd;
 volatile uint16_t bat_voltage;
 volatile uint8_t task;
-volatile uint8_t buttonPushLength=0; // 1: short, 2: long
+volatile uint8_t buttonPushLength=1; // 1: short, 2: long
 volatile uint8_t timerOverflown = 0;
 volatile uint8_t transmissionOngoing = 0;
 
 
 void readBatVoltage()
 {
-			// read battery voltage
-			ADMUX &= ~0xF;
-			ADMUX |= (1 << MUX0);
-			ADCSRA |= (1 << ADSC) | (1 << ADIF);
-			while ((ADCSRA & (1 << ADIF)) == 0)
-			{
-			}
-			bat_voltage = ADC;
-			task &= ~(1 << READ_BATTERY_VOLTAGE);
+	// read battery voltage
+	ADMUX &= ~0xF;
+	ADMUX |= (1 << MUX0);
+	ADCSRA |= (1 << ADSC) | (1 << ADIF);
+	while ((ADCSRA & (1 << ADIF)) == 0)
+	{
+	}
+	bat_voltage = ADC;
+	task &= ~(1 << READ_BATTERY_VOLTAGE);
 }
 
 void sendBatteryMsb()
@@ -68,11 +68,11 @@ void sendBatteryMsb()
 
 void sendBatteryLsb()
 {
-		TWDR = bat_voltage & 0xFF;
-		TWCR &= ~(1 >> TWEA);
-		TWCR |= (1 << TWINT) | (1 << TWEN);
-		task &= ~(1 << SEND_BATTERY_VOLTAGE_LSB);
-		transmissionOngoing = 0;
+	TWDR = bat_voltage & 0xFF;
+	TWCR &= ~(1 >> TWEA);
+	TWCR |= (1 << TWINT) | (1 << TWEN);
+	task &= ~(1 << SEND_BATTERY_VOLTAGE_LSB);
+	transmissionOngoing = 0;
 }
 
 void sendButtonPushLength()
@@ -107,6 +107,7 @@ void handleButtonPush()
 		_delay_ms(10.0);
 		DDRB &= ~(1 << DDB1);
 		
+		/*
 		// wait until raspberry pi is switched off before switching off the twi
 		while (rpi_sense > 100)
 		{
@@ -120,12 +121,17 @@ void handleButtonPush()
 		// switch off TWI/i2c
 		PORTD &= ~0x1;
 		TWCR &= ~((1 << TWEN) | (1 << TWEA));
+		*/
 	}
 	else
 	{
 		readBatVoltage();
 		if (bat_voltage > BAT_TH)
 		{
+			// switch off TWI/i2c initially
+			PORTD &= ~0x1;
+			TWCR &= ~((1 << TWEN) | (1 << TWEA));
+					
 			PORTD &= ~0x2;
 			PORTD &= ~(1 << PD7); // audio amp off
 			PORTB &= ~(1 << PB0);
@@ -135,8 +141,8 @@ void handleButtonPush()
 			
 			// read the SCL as an analog input and wait until it remains high for at two consecutive measurements 40 ms  apart
 			// then switch the twi back on
-			uint8_t n_highs = 0;
-					
+			
+			uint8_t n_highs = 0;		
 			while (n_highs < 2)
 			{
 				wdt_reset();
@@ -161,6 +167,7 @@ void handleButtonPush()
 					n_highs = 0;
 				}
 			}
+			
 			PORTD |= 1;
 			ADMUX &= ~0xF;
 			TWCR |= (1 << TWEN) | (1 << TWEA) | (1 << TWINT);
@@ -172,6 +179,7 @@ void handleButtonPush()
 
 int main(void)
 {
+	buttonPushLength = 1;
 	uint16_t scl_level;
 	  	wdt_reset();
     // setup adc
@@ -212,7 +220,7 @@ int main(void)
 	}
 	
 	// init Watchdog
-	enableWdt();
+	//enableWdt();
 
 	
 	sei();
@@ -236,17 +244,18 @@ int main(void)
     	{
     		sendButtonPushLength();
     	}
-		/*
+		
     	if ((TCCR1B & 0x7) == 0 && transmissionOngoing == 0 && task == 0)
     	{
 			
-			set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-			disableWdt();
+			set_sleep_mode(SLEEP_MODE_IDLE);
+			//disableWdt();
 			sei();
+			PORTD &= ~0x3;
 			sleep_mode();
     	}
-		*/
-    	wdt_reset();
+		
+    	//wdt_reset();
 
     }
 }
@@ -282,7 +291,8 @@ ISR(INT0_vect)
 		{
 			startTimer1(PRESC_1024);
 			MCUCR |= 0x3; // set trigger to rising edge
-			handleButtonPush();
+			task |= (1 << HANDLE_BUTTON);
+			//handleButtonPush();
 		}
 		
 	}
@@ -304,7 +314,6 @@ ISR(INT0_vect)
 		TCNT1 = 0;
 		MCUCR &=  ~0x3; // set trigger back to low
 	}
-	//PORTD |= 0x2;
 }
 
 
