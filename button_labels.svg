@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
+   sodipodi:docname="button_labels.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1"
+     inkscape:cx="295.5"
+     inkscape:cy="657.5"
+     inkscape:window-width="1848"
+     inkscape:window-height="1016"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="85.732303"
+       y="706.7976"
+       width="277.56661"
+       height="52.7898"
+       id="rect185423" />
+    <rect
+       x="262.59204"
+       y="58.204774"
+       width="494.60716"
+       height="125.95055"
+       id="rect76879" />
+    <rect
+       x="117.70748"
+       y="186.82724"
+       width="67.678586"
+       height="65.403608"
+       id="rect35757" />
+    <rect
+       x="238.036"
+       y="119.48505"
+       width="161.85156"
+       height="79.76974"
+       id="rect16369" />
+    <rect
+       x="97.87"
+       y="121.93896"
+       width="138.48881"
+       height="43.922803"
+       id="rect3861" />
+    <rect
+       x="262.59204"
+       y="58.204773"
+       width="494.60715"
+       height="125.95055"
+       id="rect76879-8" />
+    <rect
+       x="262.59204"
+       y="58.204773"
+       width="494.60715"
+       height="125.95055"
+       id="rect76879-7" />
+    <rect
+       x="97.870003"
+       y="121.93896"
+       width="138.48882"
+       height="43.922802"
+       id="rect3861-0" />
+    <rect
+       x="97.870003"
+       y="121.93896"
+       width="138.48882"
+       height="43.922802"
+       id="rect3861-6" />
+    <rect
+       x="262.59204"
+       y="58.204773"
+       width="494.60715"
+       height="125.95055"
+       id="rect76879-0" />
+    <rect
+       x="97.870003"
+       y="121.93896"
+       width="138.48882"
+       height="43.922802"
+       id="rect3861-4" />
+    <rect
+       x="262.59204"
+       y="58.204773"
+       width="494.60715"
+       height="125.95055"
+       id="rect76879-5" />
+    <rect
+       x="85.7323"
+       y="706.79761"
+       width="277.56662"
+       height="52.789799"
+       id="rect185423-5" />
+    <rect
+       x="85.7323"
+       y="706.79761"
+       width="277.56662"
+       height="52.789799"
+       id="rect185423-2" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text35755"
+       style="line-height:1.25;font-family:sans-serif;font-size:18.66666667px;white-space:pre;shape-inside:url(#rect35757)" />
+    <g
+       id="g202589">
+      <g
+         id="g73226"
+         transform="translate(-3.5268518,-15.405566)"
+         style="stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-2.799782,-0.45942843)"
+           id="text3859"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3861);stroke-width:3.77953;stroke-miterlimit:4;stroke-dasharray:none"><tspan
+             x="97.869141"
+             y="142.35658"
+             id="tspan202843"><tspan
+               style="font-family:Pretendo;-inkscape-font-specification:Pretendo"
+               id="tspan202841">SELECT</tspan></tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299"
+           width="29.074482"
+           height="11.038275"
+           x="22.069775"
+           y="29.321981"
+           ry="2.7248976" />
+      </g>
+      <g
+         id="g202551"
+         transform="translate(0.05101025)">
+        <g
+           id="g73231"
+           transform="translate(-7.5226978,-17.437388)">
+          <text
+             xml:space="preserve"
+             style="font-size:5.99722px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;stroke-width:0.264583"
+             x="28.454069"
+             y="55.571472"
+             id="text68249"><tspan
+               sodipodi:role="line"
+               id="tspan68247"
+               style="font-size:5.99722px;stroke-width:0.264583"
+               x="28.454069"
+               y="55.571472">START</tspan></text>
+          <rect
+             style="fill:none;stroke:#000000;stroke-width:0.965;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="rect72299-8"
+             width="29.074482"
+             height="11.038275"
+             x="25.99711"
+             y="47.687569"
+             ry="2.8845749" />
+        </g>
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-2.6824955,3.4578795)"
+           id="text76877"
+           style="font-size:64px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect76879)"><tspan
+             x="262.5918"
+             y="115.85336"
+             id="tspan202845">A       B       X       Y</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g202577"
+       transform="translate(-9.1351443)">
+      <g
+         id="g73226-2"
+         transform="matrix(0.85,0,0,0.85,8.8871173,102.5301)"
+         style="stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-2.799782,-0.45942843)"
+           id="text3859-02"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3861-4);stroke-width:3.77953;stroke-miterlimit:4;stroke-dasharray:none"><tspan
+             x="97.869141"
+             y="142.35658"
+             id="tspan202849"><tspan
+               style="font-family:Pretendo;-inkscape-font-specification:Pretendo"
+               id="tspan202847">SELECT</tspan></tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299-9"
+           width="29.074482"
+           height="11.038275"
+           x="22.069775"
+           y="29.321981"
+           ry="2.7248976" />
+      </g>
+      <g
+         id="g73231-09"
+         transform="matrix(0.85,0,0,0.85,5.4906483,100.80305)">
+        <text
+           xml:space="preserve"
+           style="font-size:5.99722px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;stroke-width:0.264583"
+           x="28.454069"
+           y="55.571472"
+           id="text68249-9"><tspan
+             sodipodi:role="line"
+             id="tspan68247-4"
+             style="font-size:5.99722px;stroke-width:0.264583"
+             x="28.454069"
+             y="55.571472">START</tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:0.965;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299-8-5"
+           width="29.074482"
+           height="11.038275"
+           x="25.99711"
+           y="47.687569"
+           ry="2.8845749" />
+      </g>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.22489583,0,0,0.22489583,9.6048213,118.56403)"
+         id="text76877-1"
+         style="font-size:64px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect76879-5)"><tspan
+           x="262.5918"
+           y="115.85336"
+           id="tspan202851">A       B       X       Y</tspan></text>
+    </g>
+    <g
+       id="g202564"
+       transform="translate(-5.6484565,-1.8644776)">
+      <g
+         id="g73226-7"
+         transform="matrix(0.9,0,0,0.9,4.3244913,65.082683)"
+         style="stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-2.799782,-0.45942843)"
+           id="text3859-0"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3861-6);stroke-width:3.77953;stroke-miterlimit:4;stroke-dasharray:none"><tspan
+             x="97.869141"
+             y="142.35658"
+             id="tspan202855"><tspan
+               style="font-family:Pretendo;-inkscape-font-specification:Pretendo"
+               id="tspan202853">SELECT</tspan></tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299-1"
+           width="29.074482"
+           height="11.038275"
+           x="22.069775"
+           y="29.321981"
+           ry="2.7248976" />
+      </g>
+      <g
+         id="g73231-0"
+         transform="matrix(0.9,0,0,0.9,0.72822994,63.254043)">
+        <text
+           xml:space="preserve"
+           style="font-size:5.99722px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;stroke-width:0.264583"
+           x="28.454069"
+           y="55.571472"
+           id="text68249-1"><tspan
+             sodipodi:role="line"
+             id="tspan68247-3"
+             style="font-size:5.99722px;stroke-width:0.264583"
+             x="28.454069"
+             y="55.571472">START</tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:0.965;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299-8-7"
+           width="29.074482"
+           height="11.038275"
+           x="25.99711"
+           y="47.687569"
+           ry="2.8845749" />
+      </g>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.238125,0,0,0.238125,5.0844117,82.059784)"
+         id="text76877-7"
+         style="font-size:64px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect76879-0)"><tspan
+           x="262.5918"
+           y="115.85336"
+           id="tspan202857">A       B       X       Y</tspan></text>
+    </g>
+    <g
+       id="g202544"
+       transform="translate(-1.1027872,-0.91667531)">
+      <g
+         id="g73226-6"
+         transform="matrix(0.95,0,0,0.95,-1.2971163,24.822997)"
+         style="stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-2.799782,-0.45942843)"
+           id="text3859-6"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3861-0);stroke-width:3.77953;stroke-miterlimit:4;stroke-dasharray:none"><tspan
+             x="97.869141"
+             y="142.35658"
+             id="tspan202861"><tspan
+               style="font-family:Pretendo;-inkscape-font-specification:Pretendo"
+               id="tspan202859">SELECT</tspan></tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299-4"
+           width="29.074482"
+           height="11.038275"
+           x="22.069775"
+           y="29.321981"
+           ry="2.7248976" />
+      </g>
+      <g
+         id="g73231-6"
+         transform="matrix(0.95,0,0,0.95,-5.0931698,22.892766)">
+        <text
+           xml:space="preserve"
+           style="font-size:5.99722px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;stroke-width:0.264583"
+           x="28.454069"
+           y="55.571472"
+           id="text68249-2"><tspan
+             sodipodi:role="line"
+             id="tspan68247-8"
+             style="font-size:5.99722px;stroke-width:0.264583"
+             x="28.454069"
+             y="55.571472">START</tspan></text>
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:0.965;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect72299-8-9"
+           width="29.074482"
+           height="11.038275"
+           x="25.99711"
+           y="47.687569"
+           ry="2.8845749" />
+      </g>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.25135416,0,0,0.25135416,2.5286166,39.461105)"
+         id="text76877-4"
+         style="font-size:64px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect76879-7)"><tspan
+           x="262.5918"
+           y="115.85336"
+           id="tspan202863">A       B       X       Y</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-3.449305,-25.821829)"
+       id="text185421"
+       style="font-size:18.6667px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect185423)"><tspan
+         x="85.732422"
+         y="723.61099"
+         id="tspan202865">Power            Volume</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.3175,0,0,0.3175,-8.0057542,-43.004337)"
+       id="text185421-2"
+       style="font-size:18.6667px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect185423-2)"><tspan
+         x="85.732422"
+         y="723.61099"
+         id="tspan202867">Power            Volume</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.29104166,0,0,0.29104166,-5.7275292,-34.413081)"
+       id="text185421-9"
+       style="font-size:18.6667px;line-height:1.25;font-family:Pretendo;-inkscape-font-specification:Pretendo;white-space:pre;shape-inside:url(#rect185423-5)"><tspan
+         x="85.732422"
+         y="723.61099"
+         id="tspan202869">Power            Volume</tspan></text>
+  </g>
+</svg>
