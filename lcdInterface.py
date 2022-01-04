@@ -24,7 +24,7 @@ serial_reader_state = 0 #0: off, 1: winding down, 2: running
 i2c_error_occurred = False
 
 def logprint(string):
-    print("{}: {}".format(datetime.datetime.now().isoformat(), string))
+    print("{}: {}".format(datetime.datetime.now().isoformat(), string),flush=True)
 
 def convert_value(val):
     res = None
@@ -44,9 +44,12 @@ def read_serial_values():
 
 def set_volume(vol: int):
     global vol_changing
-    subprocess.call(
+    try:
+        subprocess.call(
         ["sudo", "-u", '#1000', "XDG_RUNTIME_DIR=/run/user/1000", "pactl", "set-sink-volume", "@DEFAULT_SINK@",
          "{:d}%".format(int((vol * 100.) / 1024.))])
+    except:
+        logprint("volume setting failed")
     vol_changing = False
 
 
@@ -86,8 +89,9 @@ def serial_listener():
             elif "BAT" in keyVal:
                 battery_voltage = daddelkisteCommon.calculate_battery_voltage(keyVal["BAT"])
                 if 0.0 < battery_voltage < 5.0:
-                    turn_off(0)
+                    turn_off()
             elif "BUT" in keyVal:
+                logprint("send button bush length: {}".format(keyVal["BUT"]))
                 with open("/opt/retropie/startup.config", "wt") as f:
                     if keyVal["BUT"] == 1: #short
                         f.write("EMULATIONSTATION")
@@ -95,6 +99,9 @@ def serial_listener():
                     elif keyVal["BUT"] == 2: #long
                         f.write("DESKTOP")
                         arduino.write("D0Desktop Mode\n".encode("utf-8"))
+                    else:
+                        f.write("EMULATIONSTATION")
+                        arduino.write("D0Game Mode (R)\n".encode("utf-8"))
             elif "ERR" in keyVal:
                 err_msg = "D1I2C ERR:{}".format(keyVal["ERR"])
                 logprint(err_msg)
@@ -112,7 +119,9 @@ def serial_writer():
     global serial_writer_state
     while serial_writer_state > 0:
         if i2c_error_occurred is True:
+            logprint("restarting powercontroller")
             arduino.write("J\n".encode("utf-8"))
+            i2c_error_uccurred = False
             time.sleep(0.1)
         cpu_temp = get_cpu_temp()
         if cpu_temp is not None and abs(cpu_temp_old - cpu_temp) > 0.1:
@@ -130,21 +139,33 @@ def serial_writer():
             serial_writer_state = 0
         time.sleep(0.5)
 
-
-def turn_off(channel):
+def turn_off_restart(mode):
     global serial_reader_state
     global serial_writer_state
     global t1
     arduino.write("D0Daddelkiste stopping\n".encode("utf-8"))
     serial_reader_state = 1
     serial_writer_state = 1    
-
-    while serial_writer_state > 0 or serial_reader_state > 0:
+    retry_cnt = 0
+    while ((serial_writer_state > 0 or serial_reader_state > 0) and retry_cnt < 30):
         logprint("during shutdown: states {}, {}".format(serial_writer_state,serial_reader_state))
+        retry_cnt+=1
         time.sleep(0.1)
+    if (mode==0):
+        sdarg = "-h"
+    else:
+        sdarg = "-r"
+    subprocess.call(["sudo","shutdown",sdarg,"now"], shell=False)
 
-    subprocess.call(["sudo", "shutdown", "-h", "now"], shell=False)
+def turn_off(channel):
+    turn_off_restart(0)
 
+def shutdown_file_listener():
+     while(True):
+        if (os.path.exists("/home/pi/shutmedown.txt")):
+            os.remove("/home/pi/shutmedown.txt")
+            turn_off_restart(1)
+        time.sleep(0.1)
 
 def init_gpio():
     GPIO.setmode(GPIO.BOARD)
@@ -158,6 +179,8 @@ if __name__ == "__main__":
     serial_reader_state = 2
     t1 = threading.Thread(target=serial_listener)
     t1.start()
+    t2 = threading.Thread(target=shutdown_file_listener)
+    t2.start()
     logprint("init display")
     arduino.write("I\n".encode("utf-8"))
     time.sleep(0.01)
