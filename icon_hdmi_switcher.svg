@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
+   sodipodi:docname="icon_hdmi_switcher.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:zoom="0.75187991"
+     inkscape:cx="580.54484"
+     inkscape:cy="596.50483"
+     inkscape:window-width="1848"
+     inkscape:window-height="1016"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient16964">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="0"
+         id="stop16960" />
+      <stop
+         style="stop-color:#ebebeb;stop-opacity:1"
+         offset="0.22381228"
+         id="stop17953" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="1"
+         id="stop16962" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient13366">
+      <stop
+         style="stop-color:#dadabd;stop-opacity:1"
+         offset="0"
+         id="stop13362" />
+      <stop
+         style="stop-color:#ffffec;stop-opacity:1"
+         offset="0.52073556"
+         id="stop13807" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="0.6080994"
+         id="stop13547" />
+      <stop
+         style="stop-color:#ffffec;stop-opacity:1"
+         offset="0.66334385"
+         id="stop13549" />
+      <stop
+         style="stop-color:#646464;stop-opacity:1"
+         offset="1"
+         id="stop13364" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient12968">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop12964" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="1"
+         id="stop12966" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient12017">
+      <stop
+         style="stop-color:#ffffec;stop-opacity:1"
+         offset="0"
+         id="stop12007" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="0.21823445"
+         id="stop12009" />
+      <stop
+         style="stop-color:#ffffec;stop-opacity:1"
+         offset="0.40269518"
+         id="stop12011" />
+      <stop
+         style="stop-color:#fffff0;stop-opacity:1;"
+         offset="0.84777129"
+         id="stop12013" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="1"
+         id="stop12015" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3648-8">
+      <stop
+         style="stop-color:#ffffec;stop-opacity:1"
+         offset="0"
+         id="stop3644" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="0.13544059"
+         id="stop6897" />
+      <stop
+         style="stop-color:#ffffec;stop-opacity:1"
+         offset="0.23885645"
+         id="stop8405" />
+      <stop
+         style="stop-color:#fffff0;stop-opacity:1;"
+         offset="0.93354714"
+         id="stop8727" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="1"
+         id="stop3646" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3648-8"
+       id="linearGradient4032"
+       gradientUnits="userSpaceOnUse"
+       x1="42.210354"
+       y1="114.30517"
+       x2="30.934948"
+       y2="129.69606" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12017"
+       id="linearGradient11777"
+       x1="110.96727"
+       y1="121.79707"
+       x2="118.28529"
+       y2="112.10613"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient12970"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-0.22089842,-0.95561577)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13123"
+       gradientUnits="userSpaceOnUse"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825"
+       gradientTransform="translate(-0.22089902,2.7637828)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13146"
+       gradientUnits="userSpaceOnUse"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825"
+       gradientTransform="translate(-0.22090082,6.4831792)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13169"
+       gradientUnits="userSpaceOnUse"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825"
+       gradientTransform="translate(-0.22089882,10.202593)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13192"
+       gradientUnits="userSpaceOnUse"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825"
+       gradientTransform="translate(-0.22089752,13.921978)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13333"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(58.068063,-1.1969556)"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13335"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(58.068063,2.522443)"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13337"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(58.068061,6.2418394)"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13339"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(58.068063,9.9612532)"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12968"
+       id="linearGradient13341"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(58.068064,13.680638)"
+       x1="64.743164"
+       y1="126.06339"
+       x2="64.749474"
+       y2="127.3825" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient13366"
+       id="linearGradient13368"
+       x1="78.570061"
+       y1="139.64404"
+       x2="102.34735"
+       y2="116.25941"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16964"
+       id="radialGradient16966"
+       cx="95.75946"
+       cy="133.03278"
+       fx="95.75946"
+       fy="133.03278"
+       r="11.710026"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.6429129,0.05254737,-0.05115161,1.5992735,-54.103766,-84.847208)" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+       id="rect846-5"
+       width="85.056641"
+       height="22.715101"
+       x="25.42189"
+       y="104.5111"
+       ry="3.1591148"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <rect
+       style="fill:#ffffec;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect846"
+       width="85.056641"
+       height="22.715101"
+       x="48.752014"
+       y="121.90569"
+       ry="3.1591148"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       style="fill:url(#linearGradient11777);fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 27.850875,104.61727 79.710515,-0.20491 c 1.19259,-0.0393 2.21083,0.73464 2.21083,0.73464 l 22.27997,16.98042 -80.499077,-0.20764 z"
+       id="path10727"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       style="fill:url(#linearGradient13368);fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+       id="path1841-3"
+       sodipodi:type="arc"
+       sodipodi:cx="90.374298"
+       sodipodi:cy="133.14595"
+       sodipodi:rx="16.441187"
+       sodipodi:ry="16.441187"
+       sodipodi:start="0"
+       sodipodi:end="5.6120053"
+       sodipodi:open="true"
+       sodipodi:arc-type="arc"
+       d="M 106.81549,133.14595 A 16.441187,16.441187 0 0 1 93.12012,149.35623 16.441187,16.441187 0 0 1 74.850264,138.56047 16.441187,16.441187 0 0 1 82.443178,118.74422 16.441187,16.441187 0 0 1 103.2492,122.921"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <circle
+       style="fill:#ffffec;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+       id="path1841"
+       cx="93.551277"
+       cy="134.92546"
+       r="16.441187"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       style="fill:url(#linearGradient4032);fill-opacity:1;stroke:#000000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 51.419151,121.92063 c -2.276413,0.32587 -2.558804,1.81557 -2.607505,2.79791 l -0.132266,17.09165 c 0.3519,1.60446 1.095103,2.1842 1.095103,2.1842 l -23.5456,-17.67659 c 0,0 -0.88065,-0.82962 -0.919475,-2.21646 l 0.146958,-16.95535 c 0,0 0.399453,-2.26164 2.479334,-2.40407 z"
+       id="path1983"
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <g
+       id="g13360"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <rect
+         style="fill:url(#linearGradient12970);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896"
+         width="17.691059"
+         height="1.697366"
+         x="53.384495"
+         y="125.25616"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13123);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-8"
+         width="17.691059"
+         height="1.697366"
+         x="53.384495"
+         y="128.97556"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13146);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-4"
+         width="17.691059"
+         height="1.697366"
+         x="53.384495"
+         y="132.69496"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13169);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-3"
+         width="17.691059"
+         height="1.697366"
+         x="53.384495"
+         y="136.41437"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13192);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-0"
+         width="17.691059"
+         height="1.697366"
+         x="53.384495"
+         y="140.13376"
+         ry="0.68541634" />
+    </g>
+    <g
+       id="g13353"
+       transform="translate(0,0.24134064)"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <rect
+         style="fill:url(#linearGradient13333);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-88"
+         width="17.691059"
+         height="1.697366"
+         x="111.67345"
+         y="125.01482"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13335);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-8-9"
+         width="17.691059"
+         height="1.697366"
+         x="111.67345"
+         y="128.73421"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13337);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-4-7"
+         width="17.691059"
+         height="1.697366"
+         x="111.67345"
+         y="132.45361"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13339);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-3-7"
+         width="17.691059"
+         height="1.697366"
+         x="111.67345"
+         y="136.17303"
+         ry="0.68541634" />
+      <rect
+         style="fill:url(#linearGradient13341);fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect12896-0-6"
+         width="17.691059"
+         height="1.697366"
+         x="111.67345"
+         y="139.89243"
+         ry="0.68541634" />
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 86.231731,149.66871 -5.620928,-3.23899"
+       id="path16507"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 103.10831,121.48176 -5.620928,-3.23899"
+       id="path16507-4"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <circle
+       style="fill:url(#radialGradient16966);fill-opacity:1;stroke:#5d5d5d;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path16851"
+       r="11.210026"
+       cy="135.16112"
+       cx="93.717155"
+       inkscape:export-filename="/home/philipp/PycharmProjects/Daddelkiste/hdmiSwitcherIcon.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+  </g>
+</svg>
